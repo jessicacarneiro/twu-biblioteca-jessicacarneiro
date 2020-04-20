@@ -1,6 +1,6 @@
 package com.twu.biblioteca.user;
 
-import com.twu.biblioteca.collections.BookList;
+import com.twu.biblioteca.collections.ItemList;
 
 public class Librarian extends UserBase {
 
@@ -8,7 +8,7 @@ public class Librarian extends UserBase {
         super(name);
     }
 
-    public String seeAllReturnedBooks(BookList bookList) {
+    public String seeAllReturnedBooks(ItemList bookList) {
         return bookList.toString();
     }
 }

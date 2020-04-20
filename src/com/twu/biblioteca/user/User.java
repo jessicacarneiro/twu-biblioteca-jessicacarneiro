@@ -1,43 +1,44 @@
 package com.twu.biblioteca.user;
 
-import com.twu.biblioteca.collections.BookList;
+import com.twu.biblioteca.collections.ItemList;
 import com.twu.biblioteca.items.Book;
+import com.twu.biblioteca.items.Item;
 
 import java.util.ArrayList;
 
 public class User extends UserBase {
-    private BookList checkedOutBooks;
+    private ItemList checkedOutItems;
 
     public User(String name) {
         super(name);
-        this.checkedOutBooks = new BookList(new ArrayList<Book>());
+        this.checkedOutItems = new ItemList(new ArrayList<Item>());
     }
 
-    public void addCheckedOutBook(Book book) {
-        this.checkedOutBooks.getBooks().add(book);
+    public void addCheckedOutItem(Item item) {
+        this.checkedOutItems.getItems().add(item);
     }
 
-    public BookList getCheckedOutBooks() {
-        return checkedOutBooks;
+    public ItemList getCheckedOutItems() {
+        return checkedOutItems;
     }
 
-    public void setCheckedOutBooks(BookList checkedOutBooks) {
-        this.checkedOutBooks = checkedOutBooks;
+    public void setCheckedOutItems(ItemList checkedOutItems) {
+        this.checkedOutItems = checkedOutItems;
     }
 
-    public String returnAllCheckedOutBooks() {
-        String booksString = "";
+    public String returnAllCheckedOutItemsAsString() {
+        String itemsString = "";
 
-        for (int i = 0; i < this.checkedOutBooks.getBooks().size(); i++) {
-                booksString += i  + ". " + this.checkedOutBooks.getBooks().get(i).toString() + "\n";
+        for (int i = 0; i < this.checkedOutItems.getItems().size(); i++) {
+            itemsString += i  + ". " + this.checkedOutItems.getItems().get(i).toString() + "\n";
         }
 
-        return booksString;
+        return itemsString;
     }
 
-    public boolean checkInBook(int bookIndex) {
-        if (bookIndex >= 0 && bookIndex < this.checkedOutBooks.getBooks().size()) {
-            this.checkedOutBooks.getBooks().get(bookIndex).checkin();
+    public boolean checkInItem(int itemIndex) {
+        if (itemIndex >= 0 && itemIndex < this.checkedOutItems.getItems().size()) {
+            this.checkedOutItems.getItems().get(itemIndex).checkin();
             return true;
         }
         return false;

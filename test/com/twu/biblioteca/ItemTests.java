@@ -1,16 +1,17 @@
 package com.twu.biblioteca;
 
 import com.twu.biblioteca.items.Book;
+import com.twu.biblioteca.items.Item;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class BookTests {
+public class ItemTests {
 
     @Test
     public void shouldReturnTrueWhenCheckingOutAnAvailableBook() {
         // given
-        Book book = new Book("Clean Code", "Robert C. Martin", 2008);
+        Item book = new Book("Clean Code", "Robert C. Martin", 2008);
 
         // when
         boolean checkoutResult = book.checkout();
@@ -22,7 +23,7 @@ public class BookTests {
     @Test
     public void shouldReturnFalseWhenCheckingOutUnavailableBook() {
         // given
-        Book book = new Book("Clean Code", "Robert C. Martin", 2008);
+        Item book = new Book("Clean Code", "Robert C. Martin", 2008);
         book.setAvailable(false);
 
         // when
@@ -35,7 +36,7 @@ public class BookTests {
     @Test
     public void shouldChangeBookAvailabilityAfterCheckIn() {
         // given
-        Book book = new Book("Clean Code", "Robert C. Martin", 2008);
+        Item book = new Book("Clean Code", "Robert C. Martin", 2008);
         book.checkout();
 
         // when

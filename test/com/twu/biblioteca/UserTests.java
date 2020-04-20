@@ -19,10 +19,10 @@ public class UserTests {
     @Test
     public void shouldReturnTrueWhenReturnABook() {
         // given
-        user.addCheckedOutBook(new Book("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 1968));
+        user.addCheckedOutItem(new Book("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 1968));
 
         // when
-        boolean checkInResult = user.checkInBook(0);
+        boolean checkInResult = user.checkInItem(0);
 
         // then
         assertEquals(true, checkInResult);
@@ -31,10 +31,10 @@ public class UserTests {
     @Test
     public void shouldReturnFalseWhenTryingToReturnBookThatDoesntExist() {
         // given
-        user.addCheckedOutBook(new Book("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 1968));
+        user.addCheckedOutItem(new Book("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 1968));
 
         // when
-        boolean checkInResult = user.checkInBook(1);
+        boolean checkInResult = user.checkInItem(1);
 
         // then
         assertEquals(false, checkInResult);

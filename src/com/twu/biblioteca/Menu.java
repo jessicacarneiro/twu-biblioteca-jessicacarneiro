@@ -2,7 +2,9 @@ package com.twu.biblioteca;
 
 import com.twu.biblioteca.IO.InputReceiver;
 import com.twu.biblioteca.IO.StreamPrinter;
-import com.twu.biblioteca.collections.BookList;
+import com.twu.biblioteca.collections.ItemList;
+import com.twu.biblioteca.items.Book;
+import com.twu.biblioteca.items.Item;
 import com.twu.biblioteca.user.User;
 
 import java.io.BufferedReader;
@@ -14,15 +16,25 @@ public class Menu {
 
     private static final String WELCOME_MESSAGE =
             "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
+
     private static final String[] MENU_OPTIONS = {"1. List of books", "2. Check out a book", "3. Return a book", "4. Quit"};
+
     private static final String SELECT_AN_OPTION_MESSAGE = "Please type an option: ";
     private static final String INVALID_OPTION_MESSAGE = "Please select a valid option!";
-    private static final String SELECT_BOOK_MESSAGE = "Please type the number of the book you want to check out: ";
-    private static final String UNAVAILABLE_BOOK_MESSAGE = "Sorry, that book is not available";
+    
+    private static final String SELECT_ITEM_TO_CHECKOUT_MESSAGE = "Please type the number of the item you want to check out: ";
+    private static final String SELECT_ITEM_TO_RETURN_MESSAGE = "Please type the number of the item you want to return: ";
+
+    private static final String NOT_AVAILABLE_ITEM_MESSAGE = "Sorry, that item is not available";
+
     private static final String SUCCESS_CHECKOUT_BOOK_MESSAGE = "Thank you! Enjoy the book!";
-    private static final String RETURN_BOOK_MESSAGE = "Please type the number of the book you want to return: ";
+    private static final String SUCCESS_CHECKOUT_MOVIE_MESSAGE = "Thank you! Enjoy the movie!";
+
     private static final String RETURN_BOOK_SUCCESS_MESSAGE = "Thank you for returning the book";
-    private static final String RETURN_BOOK_ERROR_MESSAGE = "That is not a valid book to return";
+    private static final String RETURN_MOVIE_SUCCESS_MESSAGE = "Thank you for returning the movie";
+
+    private static final String RETURN_ITEM_ERROR_MESSAGE = "That is not a valid item to return";
+
 
     public Menu(PrintStream printStream, BufferedReader bufferedReader) {
         this.streamPrinter = new StreamPrinter(printStream);
@@ -41,28 +53,34 @@ public class Menu {
         this.streamPrinter.printString(Menu.SELECT_AN_OPTION_MESSAGE);
     }
 
-    public void printTypeBookOptionMessage() {
-        this.streamPrinter.printString(Menu.SELECT_BOOK_MESSAGE);
+    public void printTypeItemOptionMessage() {
+        this.streamPrinter.printString(Menu.SELECT_ITEM_TO_CHECKOUT_MESSAGE);
     }
 
-    public void printUnavailableBookMessage() {
-        this.streamPrinter.printNewLineString(Menu.UNAVAILABLE_BOOK_MESSAGE);
+    public void printNotAvailableItemMessage() {
+        this.streamPrinter.printNewLineString(Menu.NOT_AVAILABLE_ITEM_MESSAGE);
     }
 
-    public void printSuccessCheckoutMessage() {
-        this.streamPrinter.printNewLineString(Menu.SUCCESS_CHECKOUT_BOOK_MESSAGE);
+    public void printSuccessCheckoutMessage(Item item) {
+        if (item instanceof Book)
+            this.streamPrinter.printNewLineString(Menu.SUCCESS_CHECKOUT_BOOK_MESSAGE);
+        else
+            this.streamPrinter.printNewLineString(Menu.SUCCESS_CHECKOUT_MOVIE_MESSAGE);
     }
 
     public void printTypeBookToReturnMessage() {
-        this.streamPrinter.printString(Menu.RETURN_BOOK_MESSAGE);
+        this.streamPrinter.printString(Menu.SELECT_ITEM_TO_RETURN_MESSAGE);
     }
 
-    public void printSuccessReturnMessage() {
-        this.streamPrinter.printNewLineString(Menu.RETURN_BOOK_SUCCESS_MESSAGE);
+    public void printSuccessReturnMessage(Item item) {
+        if (item instanceof Book)
+            this.streamPrinter.printNewLineString(Menu.RETURN_BOOK_SUCCESS_MESSAGE);
+        else
+            this.streamPrinter.printNewLineString(Menu.RETURN_MOVIE_SUCCESS_MESSAGE);
     }
 
-    public void printErrorMessageInvalidReturnBook() {
-        this.streamPrinter.printNewLineString(Menu.RETURN_BOOK_ERROR_MESSAGE);
+    public void printErrorMessageInvalidReturnItem() {
+        this.streamPrinter.printNewLineString(Menu.RETURN_ITEM_ERROR_MESSAGE);
     }
 
     public void printMenuOptions() {
@@ -75,12 +93,12 @@ public class Menu {
         this.streamPrinter.printNewLineString(menuOptions);
     }
 
-    public void printBookList(BookList bookList) {
+    public void printBookList(ItemList bookList) {
         this.streamPrinter.printNewLineString(bookList.toString());
     }
 
     public void printUsersCheckedOutBooks(User user) {
-        this.streamPrinter.printNewLineString(user.returnAllCheckedOutBooks());
+        this.streamPrinter.printNewLineString(user.returnAllCheckedOutItemsAsString());
     }
 
     public int askMenuOptionFromUser() {
@@ -92,16 +110,16 @@ public class Menu {
         }
     }
 
-    public void executeMenuOption(int option, User user, BookList bookList) {
+    public void executeMenuOption(int option, User user, ItemList itemList) {
         switch (option) {
             case 1:
-                this.printBookList(bookList);
+                this.printBookList(itemList);
                 break;
             case 2:
-                this.checkoutBook(user, bookList);
+                this.checkOutItem(user, itemList);
                 break;
             case 3:
-                this.returnABook(user, bookList);
+                this.returnABook(user, itemList);
                 break;
             case 4:
                 System.exit(0);
@@ -110,42 +128,44 @@ public class Menu {
         }
     }
 
-    public boolean checkIfBookIsAvailable(int bookOption, BookList bookList) {
-        return bookList.isBookAvailable(bookOption);
+    public boolean checkIfItemIsAvailable(int itemOption, ItemList itemList) {
+        return itemList.isItemAvailable(itemOption);
     }
 
-    public void checkoutBook(User user, BookList bookList) {
-        this.printTypeBookOptionMessage(); // print message asking for input
+    public void checkOutItem(User user, ItemList itemList) {
+        this.printTypeItemOptionMessage(); // print message asking for input
         int option = this.askMenuOptionFromUser(); // receives input
 
-        if (this.checkIfBookIsAvailable(option, bookList)) {
-            bookList.getBooks().get(option).checkout();
-            user.addCheckedOutBook(bookList.getBooks().get(option));
-            this.printSuccessCheckoutMessage();
+        if (this.checkIfItemIsAvailable(option, itemList)) {
+            Item item = itemList.getItems().get(option);
+            item.checkout();
+            user.addCheckedOutItem(item);
+            this.printSuccessCheckoutMessage(item);
         }
         else {
-            this.printUnavailableBookMessage();
+            this.printNotAvailableItemMessage();
         }
     }
 
-    public void returnABook(User user, BookList bookList) {
+    public void returnABook(User user, ItemList itemList) {
         this.printUsersCheckedOutBooks(user); // displays all checked out books for that user
         this.printTypeBookToReturnMessage(); // print message asking for input
         int option = this.askMenuOptionFromUser(); // receives input
 
-        if (user.checkInBook(option)) {
-            bookList.getBooks().get(option).checkin();
-            this.printSuccessReturnMessage();
+        if (user.checkInItem(option)) {
+            Item item = itemList.getItems().get(option);
+            item.checkin();
+            this.printSuccessReturnMessage(item);
         }
         else {
-            this.printErrorMessageInvalidReturnBook();
+            this.printErrorMessageInvalidReturnItem();
         }
     }
 
-    public void runMenu(User user, BookList bookList) {
+    public void runMenu(User user, ItemList itemList) {
         this.printMenuOptions(); // displays menu
         this.printTypeOptionMessage(); // print message asking for input
         int option = this.askMenuOptionFromUser(); // receives input
-        this.executeMenuOption(option, user, bookList); // execute action
+        this.executeMenuOption(option, user, itemList); // execute action
     }
 }

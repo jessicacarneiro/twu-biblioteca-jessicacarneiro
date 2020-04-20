@@ -1,8 +1,10 @@
 package com.twu.biblioteca;
 
 
-import com.twu.biblioteca.collections.BookList;
+import com.twu.biblioteca.collections.ItemList;
 import com.twu.biblioteca.items.Book;
+import com.twu.biblioteca.items.Item;
+import com.twu.biblioteca.items.Movie;
 import com.twu.biblioteca.user.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,19 +22,19 @@ public class MenuTests {
     private PrintStream printStream;
     private BufferedReader bufferedReader;
     private Menu menu;
-    private List<Book> books;
-    private BookList bookList;
+    private List<Item> items;
+    private ItemList itemList;
     private User user;
 
     @Before
     public void setUp() {
         printStream = mock(PrintStream.class);
         bufferedReader = mock(BufferedReader.class);
-        books = new ArrayList<Book>();
+        items = new ArrayList<Item>();
 
-        books.add(new Book("Clean Code", "Robert C. Martin", 2008));
-        books.add(new Book("Foundation", "Isaac Asimov", 1951));
-        bookList = new BookList(books);
+        items.add(new Book("Clean Code", "Robert C. Martin", 2008));
+        items.add(new Book("Foundation", "Isaac Asimov", 1951));
+        itemList = new ItemList(items);
 
         menu = new Menu(printStream, bufferedReader);
         user = new User("John Doe");
@@ -77,7 +79,7 @@ public class MenuTests {
         // given
 
         // when
-        menu.executeMenuOption(8, user, bookList);
+        menu.executeMenuOption(8, user, itemList);
 
         // then
         verify(printStream).println("Please select a valid option!");
@@ -88,7 +90,7 @@ public class MenuTests {
         // given
 
         // when
-        menu.printBookList(bookList);
+        menu.printBookList(itemList);
 
         // then
         verify(printStream).println("0. Clean Code | Robert C. Martin | 2008\n1. Foundation | Isaac Asimov | 1951\n");
@@ -100,10 +102,10 @@ public class MenuTests {
 
         // when
         when(bufferedReader.readLine()).thenReturn("50");
-        menu.checkoutBook(user, bookList);
+        menu.checkOutItem(user, itemList);
 
         // then
-        verify(printStream).println("Sorry, that book is not available");
+        verify(printStream).println("Sorry, that item is not available");
     }
 
     @Test
@@ -112,7 +114,7 @@ public class MenuTests {
 
         // when
         when(bufferedReader.readLine()).thenReturn("1");
-        menu.checkoutBook(user, bookList);
+        menu.checkOutItem(user, itemList);
 
         // then
         verify(printStream).println("Thank you! Enjoy the book!");
@@ -121,11 +123,11 @@ public class MenuTests {
     @Test
     public void shouldPrintSuccessMessageWhenBookIsReturned() throws IOException {
         // given
-        user.addCheckedOutBook(new Book("Foundation", "Isaac Asimov", 1951));
+        user.addCheckedOutItem(new Book("Foundation", "Isaac Asimov", 1951));
 
         // when
         when(bufferedReader.readLine()).thenReturn("0");
-        menu.returnABook(user, bookList);
+        menu.returnABook(user, itemList);
 
         // then
         verify(printStream).println("Thank you for returning the book");
@@ -134,13 +136,27 @@ public class MenuTests {
     @Test
     public void shouldPrintErrorMessageWhenTryingToReturnInvalidBook() throws IOException {
         // given
-        user.addCheckedOutBook(new Book("Foundation", "Isaac Asimov", 1951));
+        user.addCheckedOutItem(new Book("Foundation", "Isaac Asimov", 1951));
 
         // when
         when(bufferedReader.readLine()).thenReturn("2");
-        menu.returnABook(user, bookList);
+        menu.returnABook(user, itemList);
 
         // then
-        verify(printStream).println("That is not a valid book to return");
+        verify(printStream).println("That is not a valid item to return");
+    }
+
+    @Test
+    public void shouldPrintSuccessMessageWhenMovieIsCheckedOut() throws IOException {
+        // given
+        Item movie = new Movie("Parasite", 2019);
+        itemList.getItems().add(movie);
+
+        // when
+        when(bufferedReader.readLine()).thenReturn("2");
+        menu.checkOutItem(user, itemList);
+
+        // then
+        verify(printStream).println("Thank you! Enjoy the movie!");
     }
 }
