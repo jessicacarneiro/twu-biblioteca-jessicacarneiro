@@ -20,7 +20,7 @@ public class Menu {
     private static final String INVALID_OPTION_MESSAGE = "Please select a valid option!";
     private static final String SELECT_BOOK_MESSAGE = "Please type the number of the book you want to check out: ";
     private static final String UNAVAILABLE_BOOK_MESSAGE = "Sorry! This book is not available!";
-    private static final String SUCCESS_CHECKOUT_BOOK_MESSAGE = "The book was checked out!";
+    private static final String SUCCESS_CHECKOUT_BOOK_MESSAGE = "Thank you! Enjoy the book!";
 
     public Menu(PrintStream printStream, BufferedReader bufferedReader, BookList bookList) {
         this.streamPrinter = new StreamPrinter(printStream);

@@ -112,6 +112,6 @@ public class MenuTests {
         menu.checkoutBook();
 
         // then
-        verify(printStream).println("The book was checked out!");
+        verify(printStream).println("Thank you! Enjoy the book!");
     }
 }
