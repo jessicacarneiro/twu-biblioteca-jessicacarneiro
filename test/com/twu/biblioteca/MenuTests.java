@@ -149,7 +149,7 @@ public class MenuTests {
     @Test
     public void shouldPrintSuccessMessageWhenMovieIsCheckedOut() throws IOException {
         // given
-        Item movie = new Movie("Parasite", 2019);
+        Item movie = new Movie("Parasite", 2019, "Bong Joon-ho", 4.3);
         itemList.getItems().add(movie);
 
         // when

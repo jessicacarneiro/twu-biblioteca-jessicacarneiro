@@ -24,7 +24,8 @@ public class BibliotecaApp {
         items.add(new Book("Foundation", "Isaac Asimov", 1951));
         items.add(new Book("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 1968));
         items.add(new Book("The Hitchhiker's Guide to the Galaxy", "Douglas Adams", 1978));
-        items.add(new Movie("Parasite", 2019));
+        items.add(new Movie("Parasite", 2019,"Bong Joon-ho", 4.3));
+        items.add(new Movie("Singin' in the Rain", 1952, "Stanley Donen, Gene Kelly", 4.1));
 
         this.itemList = new ItemList(items);
 
