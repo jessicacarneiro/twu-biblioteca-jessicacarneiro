@@ -9,7 +9,9 @@ public class StreamPrinter {
         this.printStream = printStream;
     }
 
-    public void printString(String string) {
+    public void printNewLineString(String string) {
         printStream.println(string);
     }
+
+    public void printString(String string) { printStream.print(string); }
 }

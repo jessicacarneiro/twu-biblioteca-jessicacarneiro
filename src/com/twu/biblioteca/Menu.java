@@ -6,13 +6,11 @@ import com.twu.biblioteca.collections.BookList;
 import com.twu.biblioteca.user.User;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.PrintStream;
 
 public class Menu {
     private StreamPrinter streamPrinter;
     private InputReceiver inputReceiver;
-    private BookList bookList;
 
     private static final String WELCOME_MESSAGE =
             "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
@@ -26,18 +24,17 @@ public class Menu {
     private static final String RETURN_BOOK_SUCCESS_MESSAGE = "Thank you for returning the book";
     private static final String RETURN_BOOK_ERROR_MESSAGE = "That is not a valid book to return";
 
-    public Menu(PrintStream printStream, BufferedReader bufferedReader, BookList bookList) {
+    public Menu(PrintStream printStream, BufferedReader bufferedReader) {
         this.streamPrinter = new StreamPrinter(printStream);
         this.inputReceiver = new InputReceiver(bufferedReader);
-        this.bookList = bookList;
     }
 
     public void printWelcomeMessage() {
-        this.streamPrinter.printString(Menu.WELCOME_MESSAGE);
+        this.streamPrinter.printNewLineString(Menu.WELCOME_MESSAGE);
     }
 
     public void printInvalidOptionMessage() {
-        this.streamPrinter.printString(Menu.INVALID_OPTION_MESSAGE);
+        this.streamPrinter.printNewLineString(Menu.INVALID_OPTION_MESSAGE);
     }
 
     public void printTypeOptionMessage() {
@@ -49,11 +46,11 @@ public class Menu {
     }
 
     public void printUnavailableBookMessage() {
-        this.streamPrinter.printString(Menu.UNAVAILABLE_BOOK_MESSAGE);
+        this.streamPrinter.printNewLineString(Menu.UNAVAILABLE_BOOK_MESSAGE);
     }
 
     public void printSuccessCheckoutMessage() {
-        this.streamPrinter.printString(Menu.SUCCESS_CHECKOUT_BOOK_MESSAGE);
+        this.streamPrinter.printNewLineString(Menu.SUCCESS_CHECKOUT_BOOK_MESSAGE);
     }
 
     public void printTypeBookToReturnMessage() {
@@ -61,11 +58,11 @@ public class Menu {
     }
 
     public void printSuccessReturnMessage() {
-        this.streamPrinter.printString(Menu.RETURN_BOOK_SUCCESS_MESSAGE);
+        this.streamPrinter.printNewLineString(Menu.RETURN_BOOK_SUCCESS_MESSAGE);
     }
 
     public void printErrorMessageInvalidReturnBook() {
-        this.streamPrinter.printString(Menu.RETURN_BOOK_ERROR_MESSAGE);
+        this.streamPrinter.printNewLineString(Menu.RETURN_BOOK_ERROR_MESSAGE);
     }
 
     public void printMenuOptions() {
@@ -75,15 +72,15 @@ public class Menu {
             menuOptions += option + "\n";
         }
 
-        this.streamPrinter.printString(menuOptions);
+        this.streamPrinter.printNewLineString(menuOptions);
     }
 
-    public void printBookList() {
-        this.streamPrinter.printString(this.bookList.toString());
+    public void printBookList(BookList bookList) {
+        this.streamPrinter.printNewLineString(bookList.toString());
     }
 
     public void printUsersCheckedOutBooks(User user) {
-        this.streamPrinter.printString(user.returnAllCheckedOutBooks());
+        this.streamPrinter.printNewLineString(user.returnAllCheckedOutBooks());
     }
 
     public int askMenuOptionFromUser() {
@@ -95,16 +92,16 @@ public class Menu {
         }
     }
 
-    public void executeMenuOption(int option, User user) {
+    public void executeMenuOption(int option, User user, BookList bookList) {
         switch (option) {
             case 1:
-                this.printBookList();
+                this.printBookList(bookList);
                 break;
             case 2:
-                this.checkoutBook();
+                this.checkoutBook(user, bookList);
                 break;
             case 3:
-                this.returnABook(user);
+                this.returnABook(user, bookList);
                 break;
             case 4:
                 System.exit(0);
@@ -113,16 +110,17 @@ public class Menu {
         }
     }
 
-    public boolean checkIfBookIsAvailable(int bookOption) {
-        return this.bookList.isBookAvailable(bookOption);
+    public boolean checkIfBookIsAvailable(int bookOption, BookList bookList) {
+        return bookList.isBookAvailable(bookOption);
     }
 
-    public void checkoutBook() {
+    public void checkoutBook(User user, BookList bookList) {
         this.printTypeBookOptionMessage(); // print message asking for input
         int option = this.askMenuOptionFromUser(); // receives input
 
-        if (this.checkIfBookIsAvailable(option)) {
-            this.bookList.getBooks().get(option).checkout();
+        if (this.checkIfBookIsAvailable(option, bookList)) {
+            bookList.getBooks().get(option).checkout();
+            user.addCheckedOutBook(bookList.getBooks().get(option));
             this.printSuccessCheckoutMessage();
         }
         else {
@@ -130,12 +128,13 @@ public class Menu {
         }
     }
 
-    public void returnABook(User user) {
+    public void returnABook(User user, BookList bookList) {
         this.printUsersCheckedOutBooks(user); // displays all checked out books for that user
         this.printTypeBookToReturnMessage(); // print message asking for input
         int option = this.askMenuOptionFromUser(); // receives input
 
         if (user.checkInBook(option)) {
+            bookList.getBooks().get(option).checkin();
             this.printSuccessReturnMessage();
         }
         else {
@@ -143,10 +142,10 @@ public class Menu {
         }
     }
 
-    public void runMenu(User user) {
+    public void runMenu(User user, BookList bookList) {
         this.printMenuOptions(); // displays menu
         this.printTypeOptionMessage(); // print message asking for input
         int option = this.askMenuOptionFromUser(); // receives input
-        this.executeMenuOption(option, user); // execute action
+        this.executeMenuOption(option, user, bookList); // execute action
     }
 }

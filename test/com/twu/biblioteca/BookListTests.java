@@ -35,6 +35,6 @@ public class BookListTests {
         String stringBooks = bookList.toString();
 
         // then
-        assertEquals("2. Foundation | Isaac Asimov | 1951\n", stringBooks);
+        assertEquals("1. Foundation | Isaac Asimov | 1951\n", stringBooks);
     }
 }

@@ -29,7 +29,7 @@ public class User extends UserBase {
         String booksString = "";
 
         for (int i = 0; i < this.checkedOutBooks.getBooks().size(); i++) {
-                booksString += (i + 1) + ". " + this.checkedOutBooks.getBooks().get(i).toString() + "\n";
+                booksString += i  + ". " + this.checkedOutBooks.getBooks().get(i).toString() + "\n";
         }
 
         return booksString;

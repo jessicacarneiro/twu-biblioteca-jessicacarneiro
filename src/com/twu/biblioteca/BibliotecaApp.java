@@ -2,6 +2,7 @@ package com.twu.biblioteca;
 
 import com.twu.biblioteca.collections.BookList;
 import com.twu.biblioteca.items.Book;
+import com.twu.biblioteca.user.User;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,8 +12,9 @@ import java.util.List;
 public class BibliotecaApp {
     private BookList bookList;
     private Menu menu;
+    private User user;
 
-    public BibliotecaApp() {
+    public BibliotecaApp(String userName) {
         List<Book> books = new ArrayList<Book>();
         books.add(new Book("Clean Code", "Robert C. Martin", 2008));
         books.add(new Book("Harry Potter and the Order of the Phoenix", "J. K. Rowling", 2003));
@@ -23,6 +25,17 @@ public class BibliotecaApp {
 
         this.bookList = new BookList(books);
 
-        this.menu = new Menu(System.out, new BufferedReader(new InputStreamReader(System.in)), bookList);
+        this.menu = new Menu(System.out, new BufferedReader(new InputStreamReader(System.in)));
+
+        this.user = new User(userName);
+    }
+
+    public void startApp() {
+        this.menu.printWelcomeMessage();
+    }
+
+    public void run() {
+        while (true)
+            this.menu.runMenu(this.user, this.bookList);
     }
 }

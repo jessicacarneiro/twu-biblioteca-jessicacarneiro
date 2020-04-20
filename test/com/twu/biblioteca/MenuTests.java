@@ -34,7 +34,7 @@ public class MenuTests {
         books.add(new Book("Foundation", "Isaac Asimov", 1951));
         bookList = new BookList(books);
 
-        menu = new Menu(printStream, bufferedReader, bookList);
+        menu = new Menu(printStream, bufferedReader);
         user = new User("John Doe");
     }
 
@@ -77,7 +77,7 @@ public class MenuTests {
         // given
 
         // when
-        menu.executeMenuOption(8, user);
+        menu.executeMenuOption(8, user, bookList);
 
         // then
         verify(printStream).println("Please select a valid option!");
@@ -88,10 +88,10 @@ public class MenuTests {
         // given
 
         // when
-        menu.printBookList();
+        menu.printBookList(bookList);
 
         // then
-        verify(printStream).println("1. Clean Code | Robert C. Martin | 2008\n2. Foundation | Isaac Asimov | 1951\n");
+        verify(printStream).println("0. Clean Code | Robert C. Martin | 2008\n1. Foundation | Isaac Asimov | 1951\n");
     }
 
     @Test
@@ -100,7 +100,7 @@ public class MenuTests {
 
         // when
         when(bufferedReader.readLine()).thenReturn("50");
-        menu.checkoutBook();
+        menu.checkoutBook(user, bookList);
 
         // then
         verify(printStream).println("Sorry, that book is not available");
@@ -112,7 +112,7 @@ public class MenuTests {
 
         // when
         when(bufferedReader.readLine()).thenReturn("1");
-        menu.checkoutBook();
+        menu.checkoutBook(user, bookList);
 
         // then
         verify(printStream).println("Thank you! Enjoy the book!");
@@ -125,7 +125,7 @@ public class MenuTests {
 
         // when
         when(bufferedReader.readLine()).thenReturn("0");
-        menu.returnABook(user);
+        menu.returnABook(user, bookList);
 
         // then
         verify(printStream).println("Thank you for returning the book");
@@ -138,7 +138,7 @@ public class MenuTests {
 
         // when
         when(bufferedReader.readLine()).thenReturn("2");
-        menu.returnABook(user);
+        menu.returnABook(user, bookList);
 
         // then
         verify(printStream).println("That is not a valid book to return");
