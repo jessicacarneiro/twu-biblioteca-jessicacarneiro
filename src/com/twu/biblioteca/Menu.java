@@ -24,6 +24,7 @@ public class Menu {
     private static final String SUCCESS_CHECKOUT_BOOK_MESSAGE = "Thank you! Enjoy the book!";
     private static final String RETURN_BOOK_MESSAGE = "Please type the number of the book you want to return: ";
     private static final String RETURN_BOOK_SUCCESS_MESSAGE = "Thank you for returning the book";
+    private static final String RETURN_BOOK_ERROR_MESSAGE = "That is not a valid book to return";
 
     public Menu(PrintStream printStream, BufferedReader bufferedReader, BookList bookList) {
         this.streamPrinter = new StreamPrinter(printStream);
@@ -61,6 +62,10 @@ public class Menu {
 
     public void printSuccessReturnMessage() {
         this.streamPrinter.printString(Menu.RETURN_BOOK_SUCCESS_MESSAGE);
+    }
+
+    public void printErrorMessageInvalidReturnBook() {
+        this.streamPrinter.printString(Menu.RETURN_BOOK_ERROR_MESSAGE);
     }
 
     public void printMenuOptions() {
@@ -132,7 +137,7 @@ public class Menu {
             this.printSuccessReturnMessage();
         }
         else {
-
+            this.printErrorMessageInvalidReturnBook();
         }
     }
 

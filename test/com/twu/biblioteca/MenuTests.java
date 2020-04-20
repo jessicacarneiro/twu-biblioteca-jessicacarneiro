@@ -130,4 +130,17 @@ public class MenuTests {
         // then
         verify(printStream).println("Thank you for returning the book");
     }
+
+    @Test
+    public void shouldPrintErrorMessageWhenTryingToReturnInvalidBook() throws IOException {
+        // given
+        user.addCheckedOutBook(new Book("Foundation", "Isaac Asimov", 1951));
+
+        // when
+        when(bufferedReader.readLine()).thenReturn("2");
+        menu.returnABook(user);
+
+        // then
+        verify(printStream).println("That is not a valid book to return");
+    }
 }
