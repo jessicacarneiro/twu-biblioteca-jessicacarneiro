@@ -1,12 +1,16 @@
 package com.twu.biblioteca;
 
 
+import com.twu.biblioteca.collections.BookList;
+import com.twu.biblioteca.items.Book;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -15,12 +19,23 @@ public class MenuTests {
     private PrintStream printStream;
     private BufferedReader bufferedReader;
     private Menu menu;
+    private List<Book> books;
+    private BookList bookList;
 
     @Before
     public void setUp() {
         printStream = mock(PrintStream.class);
         bufferedReader = mock(BufferedReader.class);
-        menu = new Menu(printStream, bufferedReader);
+        books = new ArrayList<Book>();
+
+        Book book1 = new Book("Clean Code");
+        Book book2 = new Book("Foundation");
+
+        books.add(book1);
+        books.add(book2);
+        bookList = new BookList(books);
+
+        menu = new Menu(printStream, bufferedReader, bookList);
     }
 
     @Test
@@ -66,5 +81,16 @@ public class MenuTests {
 
         // then
         verify(printStream).println("Please select a valid option!");
+    }
+
+    @Test
+    public void shouldPrintBookList() {
+        // given
+
+        // when
+        menu.printBookList();
+
+        // then
+        verify(printStream).println("1. Clean Code\n2. Foundation\n");
     }
 }

@@ -2,6 +2,7 @@ package com.twu.biblioteca;
 
 import com.twu.biblioteca.IO.InputReceiver;
 import com.twu.biblioteca.IO.StreamPrinter;
+import com.twu.biblioteca.collections.BookList;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.io.PrintStream;
 public class Menu {
     private StreamPrinter streamPrinter;
     private InputReceiver inputReceiver;
+    private BookList bookList;
 
     private static final String WELCOME_MESSAGE =
             "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
@@ -17,9 +19,10 @@ public class Menu {
     private static final String SELECT_AN_OPTION_MESSAGE = "Please type an option: ";
     private static final String INVALID_OPTION_MESSAGE = "Please select a valid option!";
 
-    public Menu(PrintStream printStream, BufferedReader bufferedReader) {
+    public Menu(PrintStream printStream, BufferedReader bufferedReader, BookList bookList) {
         this.streamPrinter = new StreamPrinter(printStream);
         this.inputReceiver = new InputReceiver(bufferedReader);
+        this.bookList = bookList;
     }
 
     public void printWelcomeMessage() {
@@ -44,6 +47,10 @@ public class Menu {
         this.streamPrinter.printString(menuOptions);
     }
 
+    public void printBookList() {
+        this.streamPrinter.printString(this.bookList.toString());
+    }
+
     public int askMenuOptionFromUser() {
         try {
             String userInput = this.inputReceiver.receiveUserInput();
@@ -56,6 +63,7 @@ public class Menu {
     public void executeMenuOption(int option) {
         switch (option) {
             case 1:
+                this.printBookList();
                 break;
             default:
                 this.printInvalidOptionMessage();
