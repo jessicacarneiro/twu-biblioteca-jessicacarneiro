@@ -29,4 +29,15 @@ public class MenuTests {
         // then
         verify(printStream).println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
     }
+
+    @Test
+    public void shouldPrintMenuOptions() {
+        // given
+
+        // when
+        menu.printMenuOptions();
+
+        // then
+        verify(printStream).println("1. List of books\n");
+    }
 }
