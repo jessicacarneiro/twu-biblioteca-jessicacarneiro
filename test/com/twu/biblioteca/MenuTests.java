@@ -28,11 +28,8 @@ public class MenuTests {
         bufferedReader = mock(BufferedReader.class);
         books = new ArrayList<Book>();
 
-        Book book1 = new Book("Clean Code");
-        Book book2 = new Book("Foundation");
-
-        books.add(book1);
-        books.add(book2);
+        books.add(new Book("Clean Code", "Robert C. Martin", 2008));
+        books.add(new Book("Foundation", "Isaac Asimov", 1951));
         bookList = new BookList(books);
 
         menu = new Menu(printStream, bufferedReader, bookList);
@@ -91,6 +88,6 @@ public class MenuTests {
         menu.printBookList();
 
         // then
-        verify(printStream).println("1. Clean Code\n2. Foundation\n");
+        verify(printStream).println("1. Clean Code | Robert C. Martin | 2008\n2. Foundation | Isaac Asimov | 1951\n");
     }
 }

@@ -14,12 +14,12 @@ public class BibliotecaApp {
 
     public BibliotecaApp() {
         List<Book> books = new ArrayList<Book>();
-        books.add(new Book("Clean Code"));
-        books.add(new Book("Harry Potter and the Order of the Phoenix"));
-        books.add(new Book("The Lord of the Rings: The Fellowship of the Ring"));
-        books.add(new Book("Foundation"));
-        books.add(new Book("Do Androids Dream of Electric Sheep?"));
-        books.add(new Book("The Hitchhiker's Guide to the Galaxy"));
+        books.add(new Book("Clean Code", "Robert C. Martin", 2008));
+        books.add(new Book("Harry Potter and the Order of the Phoenix", "J. K. Rowling", 2003));
+        books.add(new Book("The Lord of the Rings: The Fellowship of the Ring", "J. R. R. Tolkien", 1954));
+        books.add(new Book("Foundation", "Isaac Asimov", 1951));
+        books.add(new Book("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 1968));
+        books.add(new Book("The Hitchhiker's Guide to the Galaxy", "Douglas Adams", 1978));
 
         this.bookList = new BookList(books);
 

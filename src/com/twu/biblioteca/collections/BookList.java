@@ -16,7 +16,7 @@ public class BookList {
         String booksString = "";
 
         for (int i = 0; i < this.books.size(); i++) {
-            booksString += (i+1) + ". " + this.books.get(i).getTitle() + "\n";
+            booksString += (i+1) + ". " + this.books.get(i).toString() + "\n";
         }
 
         return booksString;
