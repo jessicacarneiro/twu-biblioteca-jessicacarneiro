@@ -23,6 +23,7 @@ public class Menu {
     private static final String UNAVAILABLE_BOOK_MESSAGE = "Sorry, that book is not available";
     private static final String SUCCESS_CHECKOUT_BOOK_MESSAGE = "Thank you! Enjoy the book!";
     private static final String RETURN_BOOK_MESSAGE = "Please type the number of the book you want to return: ";
+    private static final String RETURN_BOOK_SUCCESS_MESSAGE = "Thank you for returning the book";
 
     public Menu(PrintStream printStream, BufferedReader bufferedReader, BookList bookList) {
         this.streamPrinter = new StreamPrinter(printStream);
@@ -56,6 +57,10 @@ public class Menu {
 
     public void printTypeBookToReturnMessage() {
         this.streamPrinter.printString(Menu.RETURN_BOOK_MESSAGE);
+    }
+
+    public void printSuccessReturnMessage() {
+        this.streamPrinter.printString(Menu.RETURN_BOOK_SUCCESS_MESSAGE);
     }
 
     public void printMenuOptions() {
@@ -124,7 +129,7 @@ public class Menu {
         int option = this.askMenuOptionFromUser(); // receives input
 
         if (user.checkInBook(option)) {
-
+            this.printSuccessReturnMessage();
         }
         else {
 

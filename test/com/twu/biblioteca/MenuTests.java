@@ -117,4 +117,17 @@ public class MenuTests {
         // then
         verify(printStream).println("Thank you! Enjoy the book!");
     }
+
+    @Test
+    public void shouldPrintSuccessMessageWhenBookIsReturned() throws IOException {
+        // given
+        user.addCheckedOutBook(new Book("Foundation", "Isaac Asimov", 1951));
+
+        // when
+        when(bufferedReader.readLine()).thenReturn("0");
+        menu.returnABook(user);
+
+        // then
+        verify(printStream).println("Thank you for returning the book");
+    }
 }
