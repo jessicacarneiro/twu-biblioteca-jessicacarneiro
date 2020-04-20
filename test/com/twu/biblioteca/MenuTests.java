@@ -100,7 +100,7 @@ public class MenuTests {
         menu.checkoutBook();
 
         // then
-        verify(printStream).println("Sorry! This book is not available!");
+        verify(printStream).println("Sorry, that book is not available");
     }
 
     @Test
