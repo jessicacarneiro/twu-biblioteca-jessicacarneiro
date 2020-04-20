@@ -16,9 +16,23 @@ public class BookList {
         String booksString = "";
 
         for (int i = 0; i < this.books.size(); i++) {
-            booksString += (i+1) + ". " + this.books.get(i).toString() + "\n";
+            if (this.books.get(i).isAvailable()) {
+                booksString += (i + 1) + ". " + this.books.get(i).toString() + "\n";
+            }
         }
 
         return booksString;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
+    public boolean isBookAvailable(int bookIndex) {
+        return bookIndex < this.books.size() && this.getBooks().get(bookIndex).isAvailable();
     }
 }

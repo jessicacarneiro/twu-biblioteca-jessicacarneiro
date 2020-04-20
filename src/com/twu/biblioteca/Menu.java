@@ -18,6 +18,9 @@ public class Menu {
     private static final String[] MENU_OPTIONS = {"1. List of books"};
     private static final String SELECT_AN_OPTION_MESSAGE = "Please type an option: ";
     private static final String INVALID_OPTION_MESSAGE = "Please select a valid option!";
+    private static final String SELECT_BOOK_MESSAGE = "Please type the number of the book you want to check out: ";
+    private static final String UNAVAILABLE_BOOK_MESSAGE = "Sorry! This book is not available!";
+    private static final String SUCCESS_CHECKOUT_BOOK_MESSAGE = "The book was checked out!";
 
     public Menu(PrintStream printStream, BufferedReader bufferedReader, BookList bookList) {
         this.streamPrinter = new StreamPrinter(printStream);
@@ -35,6 +38,18 @@ public class Menu {
 
     public void printTypeOptionMessage() {
         this.streamPrinter.printString(Menu.SELECT_AN_OPTION_MESSAGE);
+    }
+
+    public void printTypeBookOptionMessage() {
+        this.streamPrinter.printString(Menu.SELECT_BOOK_MESSAGE);
+    }
+
+    public void printUnavailableBookMessage() {
+        this.streamPrinter.printString(Menu.UNAVAILABLE_BOOK_MESSAGE);
+    }
+
+    public void printSuccessCheckoutMessage() {
+        this.streamPrinter.printString(Menu.SUCCESS_CHECKOUT_BOOK_MESSAGE);
     }
 
     public void printMenuOptions() {
@@ -65,8 +80,28 @@ public class Menu {
             case 1:
                 this.printBookList();
                 break;
+            case 2:
+                this.checkoutBook();
+                break;
             default:
                 this.printInvalidOptionMessage();
+        }
+    }
+
+    public boolean checkIfBookIsAvailable(int bookOption) {
+        return this.bookList.isBookAvailable(bookOption);
+    }
+
+    public void checkoutBook() {
+        this.printTypeBookOptionMessage(); // print message asking for input
+        int option = this.askMenuOptionFromUser(); // receives input
+
+        if (this.checkIfBookIsAvailable(option)) {
+            this.bookList.getBooks().get(option).checkout();
+            this.printSuccessCheckoutMessage();
+        }
+        else {
+            this.printUnavailableBookMessage();
         }
     }
 

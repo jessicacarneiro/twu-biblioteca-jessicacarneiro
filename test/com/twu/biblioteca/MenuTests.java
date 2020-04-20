@@ -90,4 +90,28 @@ public class MenuTests {
         // then
         verify(printStream).println("1. Clean Code | Robert C. Martin | 2008\n2. Foundation | Isaac Asimov | 1951\n");
     }
+
+    @Test
+    public void shouldPrintUnavailableBookMessageWhenBookIndexDoesntExist() throws IOException {
+        // given
+
+        // when
+        when(bufferedReader.readLine()).thenReturn("50");
+        menu.checkoutBook();
+
+        // then
+        verify(printStream).println("Sorry! This book is not available!");
+    }
+
+    @Test
+    public void shouldPrintSuccessMessageWhenBookIsCheckedOut() throws IOException {
+        // given
+
+        // when
+        when(bufferedReader.readLine()).thenReturn("1");
+        menu.checkoutBook();
+
+        // then
+        verify(printStream).println("The book was checked out!");
+    }
 }
