@@ -31,4 +31,17 @@ public class BookTests {
         // then
         assertEquals(false, checkoutResult);
     }
+
+    @Test
+    public void shouldChangeBookAvailabilityAfterCheckIn() {
+        // given
+        Book book = new Book("Clean Code", "Robert C. Martin", 2008);
+        book.checkout();
+
+        // when
+        book.checkin();
+
+        // then
+        assertEquals(true, book.isAvailable());
+    }
 }

@@ -58,4 +58,8 @@ public class Book {
 
         return false;
     }
+
+    public void checkin() {
+        this.isAvailable = true;
+    }
 }

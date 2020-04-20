@@ -3,6 +3,7 @@ package com.twu.biblioteca;
 
 import com.twu.biblioteca.collections.BookList;
 import com.twu.biblioteca.items.Book;
+import com.twu.biblioteca.user.User;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,6 +22,7 @@ public class MenuTests {
     private Menu menu;
     private List<Book> books;
     private BookList bookList;
+    private User user;
 
     @Before
     public void setUp() {
@@ -33,6 +35,7 @@ public class MenuTests {
         bookList = new BookList(books);
 
         menu = new Menu(printStream, bufferedReader, bookList);
+        user = new User("John Doe");
     }
 
     @Test
@@ -54,7 +57,7 @@ public class MenuTests {
         menu.printMenuOptions();
 
         // then
-        verify(printStream).println("1. List of books\n");
+        verify(printStream).println("1. List of books\n2. Check out a book\n3. Return a book\n");
     }
 
     @Test
@@ -74,7 +77,7 @@ public class MenuTests {
         // given
 
         // when
-        menu.executeMenuOption(8);
+        menu.executeMenuOption(8, user);
 
         // then
         verify(printStream).println("Please select a valid option!");
