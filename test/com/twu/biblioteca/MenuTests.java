@@ -57,7 +57,7 @@ public class MenuTests {
         menu.printMenuOptions();
 
         // then
-        verify(printStream).println("1. List of books\n2. Check out a book\n3. Return a book\n");
+        verify(printStream).println("1. List of books\n2. Check out a book\n3. Return a book\n4. Quit\n");
     }
 
     @Test

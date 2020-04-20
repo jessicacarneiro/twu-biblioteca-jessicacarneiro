@@ -16,7 +16,7 @@ public class Menu {
 
     private static final String WELCOME_MESSAGE =
             "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
-    private static final String[] MENU_OPTIONS = {"1. List of books", "2. Check out a book", "3. Return a book"};
+    private static final String[] MENU_OPTIONS = {"1. List of books", "2. Check out a book", "3. Return a book", "4. Quit"};
     private static final String SELECT_AN_OPTION_MESSAGE = "Please type an option: ";
     private static final String INVALID_OPTION_MESSAGE = "Please select a valid option!";
     private static final String SELECT_BOOK_MESSAGE = "Please type the number of the book you want to check out: ";
@@ -106,6 +106,8 @@ public class Menu {
             case 3:
                 this.returnABook(user);
                 break;
+            case 4:
+                System.exit(0);
             default:
                 this.printInvalidOptionMessage();
         }
