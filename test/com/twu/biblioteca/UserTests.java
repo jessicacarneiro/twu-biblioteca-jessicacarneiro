@@ -13,7 +13,7 @@ public class UserTests {
 
     @Before
     public void setUp() {
-        user = new User("John Doe", "123-4567", "1234567");
+        user = new User("John Doe", "123-4567", "1234567", "512-345678", "johndoe@gmail.com");
     }
 
     @Test
@@ -38,6 +38,18 @@ public class UserTests {
 
         // then
         assertEquals(false, checkInResult);
+    }
+
+    @Test
+    public void shouldReturnAllUserInformation() {
+        // given
+        User user = new User("Mary Doe", "890-1234", "8901234", "512-345678", "marydoe@gmail.com");
+
+        // when
+        String userInfo = user.toString();
+
+        // then
+        assertEquals("User: Mary Doe\nPhone: 512-345678\nE-mail: marydoe@gmail.com", userInfo);
     }
 
 }

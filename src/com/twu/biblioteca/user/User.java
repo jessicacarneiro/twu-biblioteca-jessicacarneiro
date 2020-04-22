@@ -11,13 +11,17 @@ public class User extends UserBase {
     private ItemList checkedOutItems;
     private String libraryNumber;
     private String password;
+    private String phone;
+    private String email;
     private boolean isLoggedIn;
 
-    public User(String name, String libraryNumber, String password) {
+    public User(String name, String libraryNumber, String password, String phone, String email) {
         super(name);
         this.checkedOutItems = new ItemList(new ArrayList<Item>());
         this.libraryNumber = libraryNumber;
         this.password = password;
+        this.phone = phone;
+        this.email = email;
         this.isLoggedIn = false;
     }
 
@@ -81,6 +85,11 @@ public class User extends UserBase {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "User: " +  super.getName() + "\nPhone: " + this.phone + "\nE-mail: " + this.email;
     }
 
     @Override

@@ -20,8 +20,8 @@ public class UserListTests {
     public void setUp() {
         users = new ArrayList<User>();
 
-        users.add(new User("John Doe", "123-4567", "1234567"));
-        users.add(new User("Mary Doe", "890-1234", "8901234"));
+        users.add(new User("John Doe", "123-4567", "1234567", "", "johndoe@gmail.com"));
+        users.add(new User("Mary Doe", "890-1234", "8901234", "", "marydoe@gmail.com"));
 
         userList = new UserList(users);
     }
@@ -42,7 +42,7 @@ public class UserListTests {
     @Test
     public void shouldReturnLoggedInUser() {
         // given
-        User tomDoe = new User("Tom Doe", "567-8901", "5678901");
+        User tomDoe = new User("Tom Doe", "567-8901", "5678901", "", "");
         userList.getUserList().add(tomDoe);
         userList.logInUser("5678901", "567-8901");
 

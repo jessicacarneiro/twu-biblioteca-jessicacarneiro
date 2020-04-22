@@ -20,7 +20,7 @@ public class Menu {
             "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
 
     private static final String[] MENU_OPTIONS_LOGGED_OUT_USER = {"1. Login to an account", "2. Quit"};
-    private static final String[] MENU_OPTIONS_LOGGED_IN_USER = {"1. List of items", "2. Check out an item", "3. Return an item", "4. Quit"};
+    private static final String[] MENU_OPTIONS_LOGGED_IN_USER = {"1. List of items", "2. Check out an item", "3. Return an item", "4. View my information", "5. Quit"};
 
     private static final String TYPE_LIBRARY_NUMBER_MESSAGE = "Please type your library number: ";
     private static final String TYPE_PASSWORD_MESSAGE = "Plase type your password: ";
@@ -156,6 +156,9 @@ public class Menu {
                 this.returnABook(user, itemList);
                 break;
             case 4:
+                this.streamPrinter.printNewLineString(user.toString());
+                break;
+            case 5:
                 System.exit(0);
             default:
                 this.printInvalidOptionMessage();
@@ -183,7 +186,7 @@ public class Menu {
             this.printTypePasswordMessage(); // print message asking for password
             String password = this.inputReceiver.receiveUserInput(); // receives password
 
-            return new User(null, libraryNumber, password);
+            return new User(null, libraryNumber, password, null, null);
         } catch (IOException e) {
             e.printStackTrace();
         }

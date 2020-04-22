@@ -37,7 +37,7 @@ public class MenuTests {
         itemList = new ItemList(items);
 
         menu = new Menu(printStream, bufferedReader);
-        user = new User("John Doe", "000-00000", "1234567");
+        user = new User("John Doe", "000-00000", "1234567", "", "");
     }
 
     @Test

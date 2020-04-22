@@ -34,8 +34,8 @@ public class BibliotecaApp {
         this.menu = new Menu(System.out, new BufferedReader(new InputStreamReader(System.in)));
 
         List<User> users = new ArrayList<User>();
-        users.add(new User("John Doe", "123-4567", "1234567"));
-        users.add(new User("Mary Doe", "890-1234", "8901234"));
+        users.add(new User("John Doe", "123-4567", "1234567", "413-34567", "johndoe@gmail.com"));
+        users.add(new User("Mary Doe", "890-1234", "8901234", "413-34567", "marydoe@gmail.com"));
 
         userList = new UserList(users);
     }
