@@ -34,6 +34,7 @@ public class MenuTests {
 
         items.add(new Book("Clean Code", "Robert C. Martin", 2008));
         items.add(new Book("Foundation", "Isaac Asimov", 1951));
+        items.add(new Movie("Singin' in the Rain", 1952, "Stanley Donen, Gene Kelly", 8.3));
         itemList = new ItemList(items);
 
         menu = new Menu(printStream, bufferedReader);
@@ -59,7 +60,7 @@ public class MenuTests {
         menu.printMenuOptionsLoggedInUser();
 
         // then
-        verify(printStream).println("1. List of items\n2. Check out an item\n3. Return an item\n4. Quit\n");
+        verify(printStream).println("1. List of items\n2. Check out an item\n3. Return an item\n4. View my information\n5. Quit\n");
     }
 
     @Test
@@ -86,14 +87,14 @@ public class MenuTests {
     }
 
     @Test
-    public void shouldPrintBookList() {
+    public void shouldPrintBookList() throws IOException {
         // given
 
         // when
-        menu.printItemList(itemList);
+        menu.executeMenuOptionLoggedInUser(1, user, itemList);
 
         // then
-        verify(printStream).println("0. Clean Code | Robert C. Martin | 2008\n1. Foundation | Isaac Asimov | 1951\n");
+        verify(printStream).print("0. Clean Code | Robert C. Martin | 2008\n1. Foundation | Isaac Asimov | 1951\n2. Singin' in the Rain | Stanley Donen, Gene Kelly | 1952 | 8.3\n");
     }
 
     @Test
@@ -127,7 +128,7 @@ public class MenuTests {
 
         // when
         when(bufferedReader.readLine()).thenReturn("0");
-        menu.returnABook(user, itemList);
+        menu.returnAnItem(user, itemList);
 
         // then
         verify(printStream).println("Thank you for returning the book");
@@ -140,7 +141,7 @@ public class MenuTests {
 
         // when
         when(bufferedReader.readLine()).thenReturn("2");
-        menu.returnABook(user, itemList);
+        menu.returnAnItem(user, itemList);
 
         // then
         verify(printStream).println("That is not a valid item to return");
@@ -149,8 +150,6 @@ public class MenuTests {
     @Test
     public void shouldPrintSuccessMessageWhenMovieIsCheckedOut() throws IOException {
         // given
-        Item movie = new Movie("Parasite", 2019, "Bong Joon-ho", 8.6);
-        itemList.getItems().add(movie);
 
         // when
         when(bufferedReader.readLine()).thenReturn("2");
@@ -158,5 +157,55 @@ public class MenuTests {
 
         // then
         verify(printStream).println("Thank you! Enjoy the movie!");
+    }
+
+    @Test
+    public void shouldPrintErrorMessageWhenInvalidBookIsReturned() throws IOException {
+        // given
+
+        // when
+        when(bufferedReader.readLine()).thenReturn("0");
+        menu.returnAnItem(user, itemList);
+
+        // then
+        verify(printStream).println("That is not a valid item to return");
+    }
+
+    @Test
+    public void shouldPrintSuccessMessageWhenValidBookIsReturned() throws IOException {
+        // given
+        user.setCheckedOutItems(itemList);
+
+        // when
+        when(bufferedReader.readLine()).thenReturn("0");
+        menu.returnAnItem(user, itemList);
+
+        // then
+        verify(printStream).println("Thank you for returning the book");
+    }
+
+    @Test
+    public void shouldPrintErrorMessageWhenInvalidMovieIsReturned() throws IOException {
+        // given
+
+        // when
+        when(bufferedReader.readLine()).thenReturn("2");
+        menu.returnAnItem(user, itemList);
+
+        // then
+        verify(printStream).println("That is not a valid item to return");
+    }
+
+    @Test
+    public void shouldPrintSuccessMessageWhenValidMovieIsReturned() throws IOException {
+        // given
+        user.setCheckedOutItems(itemList);
+
+        // when
+        when(bufferedReader.readLine()).thenReturn("2");
+        menu.returnAnItem(user, itemList);
+
+        // then
+        verify(printStream).println("Thank you for returning the movie");
     }
 }
