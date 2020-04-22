@@ -37,7 +37,7 @@ public class MenuTests {
         itemList = new ItemList(items);
 
         menu = new Menu(printStream, bufferedReader);
-        user = new User("John Doe");
+        user = new User("John Doe", "000-00000", "1234567");
     }
 
     @Test
@@ -56,7 +56,7 @@ public class MenuTests {
         // given
 
         // when
-        menu.printMenuOptions();
+        menu.printMenuOptionsLoggedInUser();
 
         // then
         verify(printStream).println("1. List of items\n2. Check out an item\n3. Return an item\n4. Quit\n");
@@ -68,7 +68,7 @@ public class MenuTests {
 
         // when
         when(bufferedReader.readLine()).thenReturn("number two");
-        int option = menu.askMenuOptionFromUser();
+        int option = menu.receiveUserInput();
 
         // then
         assertEquals(-1, option);
@@ -79,7 +79,7 @@ public class MenuTests {
         // given
 
         // when
-        menu.executeMenuOption(8, user, itemList);
+        menu.executeMenuOptionLoggedInUser(8, user, itemList);
 
         // then
         verify(printStream).println("Please select a valid option!");
@@ -90,7 +90,7 @@ public class MenuTests {
         // given
 
         // when
-        menu.printBookList(itemList);
+        menu.printItemList(itemList);
 
         // then
         verify(printStream).println("0. Clean Code | Robert C. Martin | 2008\n1. Foundation | Isaac Asimov | 1951\n");
@@ -149,7 +149,7 @@ public class MenuTests {
     @Test
     public void shouldPrintSuccessMessageWhenMovieIsCheckedOut() throws IOException {
         // given
-        Item movie = new Movie("Parasite", 2019, "Bong Joon-ho", 4.3);
+        Item movie = new Movie("Parasite", 2019, "Bong Joon-ho", 8.6);
         itemList.getItems().add(movie);
 
         // when
