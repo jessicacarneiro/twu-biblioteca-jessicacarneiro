@@ -12,17 +12,16 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 public class Menu {
-    private PrintStream ps;
-    private InputReceiver inputReceiver;
+    private final PrintStream ps;
+    private final InputReceiver inputReceiver;
 
-    private static final String WELCOME_MESSAGE =
-            "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
+    private static final String WELCOME_MESSAGE = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
 
     private static final String[] MENU_OPTIONS_LOGGED_OUT_USER = {"1. Login to an account", "2. Quit"};
     private static final String[] MENU_OPTIONS_LOGGED_IN_USER = {"1. List of items", "2. Check out an item", "3. Return an item", "4. View my information", "5. Quit"};
 
     private static final String TYPE_LIBRARY_NUMBER_MESSAGE = "Please type your library number: ";
-    private static final String TYPE_PASSWORD_MESSAGE = "Plase type your password: ";
+    private static final String TYPE_PASSWORD_MESSAGE = "Please type your password: ";
 
     private static final String LOGIN_SUCCESSFUL_MESSAGE = "Your login was successful!";
     private static final String LOGIN_FAILED_MESSAGE = "Your library number or password was incorrect. Try again";
@@ -67,34 +66,26 @@ public class Menu {
     }
 
     public void printMenuOptionsLoggedOutUser() {
-        String menuOptions = "";
+        StringBuilder menuOptions = new StringBuilder();
 
-        for (String option : Menu.MENU_OPTIONS_LOGGED_OUT_USER) {
-            menuOptions += option + "\n";
+        for (String option : MENU_OPTIONS_LOGGED_OUT_USER) {
+            menuOptions.append(option).append("\n");
         }
 
-        this.ps.println(menuOptions);
+        this.ps.println(menuOptions.toString());
     }
 
     public void printMenuOptionsLoggedInUser() {
-        String menuOptions = "";
+        StringBuilder menuOptions = new StringBuilder();
 
-        for (String option : Menu.MENU_OPTIONS_LOGGED_IN_USER) {
-            menuOptions += option + "\n";
+        for (String option : MENU_OPTIONS_LOGGED_IN_USER) {
+            menuOptions.append(option).append("\n");
         }
 
-        this.ps.println(menuOptions);
+        this.ps.print(menuOptions.toString());
     }
 
-    public void printItemList(ItemList bookList) {
-        this.ps.println(bookList.toString());
-    }
-
-    public void printUsersCheckedOutBooks(User user) {
-        this.ps.println(user.returnAllCheckedOutItemsAsString());
-    }
-
-    public int receiveUserInput() {
+    public int receiveMenuOption() {
         try {
             String userInput = this.inputReceiver.receiveUserInput();
             return Integer.parseInt(userInput);
@@ -168,7 +159,7 @@ public class Menu {
 
     public void checkOutItem(User user, ItemList itemList) {
         this.ps.print(SELECT_ITEM_TO_CHECKOUT_MESSAGE); // print message asking for input
-        int option = this.receiveUserInput(); // receives input
+        int option = this.receiveMenuOption(); // receives input
 
         if (this.checkIfItemIsAvailable(option, itemList)) {
             Item item = itemList.getItems().get(option);
@@ -182,9 +173,9 @@ public class Menu {
     }
 
     public void returnAnItem(User user, ItemList itemList) {
-        this.printUsersCheckedOutBooks(user); // displays all checked out books for that user
+        this.ps.print(user.getCheckedOutItems()); // displays all checked out books for that user
         this.ps.print(SELECT_ITEM_TO_RETURN_MESSAGE); // print message asking for input
-        int option = this.receiveUserInput(); // receives input
+        int option = this.receiveMenuOption(); // receives input
 
         if (user.checkInItem(option)) {
             Item item = itemList.getItems().get(option);
@@ -199,14 +190,14 @@ public class Menu {
     public void runMenuLoggedOutUser(UserList userList) {
         this.printMenuOptionsLoggedOutUser(); // displays menu
         this.ps.print(SELECT_AN_OPTION_MESSAGE); // prints message asking for input
-        int option = this.receiveUserInput(); // receives input
+        int option = this.receiveMenuOption(); // receives input
         this.executeMenuOptionLoggedOutUser(option, userList); // execute action
     }
 
     public void runMenuLoggedInUser(User user, ItemList itemList) {
         this.printMenuOptionsLoggedInUser(); // displays menu
         this.ps.print(SELECT_AN_OPTION_MESSAGE); // prints message asking for input
-        int option = this.receiveUserInput(); // receives input
+        int option = this.receiveMenuOption(); // receives input
         this.executeMenuOptionLoggedInUser(option, user, itemList); // execute action
     }
 

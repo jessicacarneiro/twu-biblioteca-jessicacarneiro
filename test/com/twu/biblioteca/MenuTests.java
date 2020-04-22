@@ -60,7 +60,7 @@ public class MenuTests {
         menu.printMenuOptionsLoggedInUser();
 
         // then
-        verify(printStream).println("1. List of items\n2. Check out an item\n3. Return an item\n4. View my information\n5. Quit\n");
+        verify(printStream).print("1. List of items\n2. Check out an item\n3. Return an item\n4. View my information\n5. Quit\n");
     }
 
     @Test
@@ -69,7 +69,7 @@ public class MenuTests {
 
         // when
         when(bufferedReader.readLine()).thenReturn("number two");
-        int option = menu.receiveUserInput();
+        int option = menu.receiveMenuOption();
 
         // then
         assertEquals(-1, option);
