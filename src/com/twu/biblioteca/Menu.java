@@ -1,6 +1,5 @@
 package com.twu.biblioteca;
 
-import com.twu.biblioteca.IO.InputReceiver;
 import com.twu.biblioteca.collections.ItemList;
 import com.twu.biblioteca.collections.UserList;
 import com.twu.biblioteca.items.Book;
@@ -13,7 +12,7 @@ import java.io.PrintStream;
 
 public class Menu {
     private final PrintStream ps;
-    private final InputReceiver inputReceiver;
+    private final BufferedReader br;
 
     private static final String WELCOME_MESSAGE = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
 
@@ -44,7 +43,7 @@ public class Menu {
 
     public Menu(PrintStream printStream, BufferedReader bufferedReader) {
         this.ps = printStream;
-        this.inputReceiver = new InputReceiver(bufferedReader);
+        this.br = bufferedReader;
     }
 
     public void printWelcomeMessage() {
@@ -87,7 +86,7 @@ public class Menu {
 
     public int receiveMenuOption() {
         try {
-            String userInput = this.inputReceiver.receiveUserInput();
+            String userInput = this.br.readLine();
             return Integer.parseInt(userInput);
         } catch (Exception e) {
             return -1;
@@ -131,10 +130,10 @@ public class Menu {
     public User receiveUserCredentials() {
         try {
             this.ps.print(TYPE_LIBRARY_NUMBER_MESSAGE); // print message asking for library numner
-            String libraryNumber = this.inputReceiver.receiveUserInput();
+            String libraryNumber = this.br.readLine();
 
             this.ps.print(TYPE_PASSWORD_MESSAGE); // print message asking for password
-            String password = this.inputReceiver.receiveUserInput(); // receives password
+            String password = this.br.readLine(); // receives password
 
             return new User(null, libraryNumber, password, null, null);
         } catch (IOException e) {
