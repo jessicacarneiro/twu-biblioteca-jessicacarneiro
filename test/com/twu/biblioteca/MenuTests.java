@@ -124,7 +124,7 @@ public class MenuTests {
     @Test
     public void shouldPrintSuccessMessageWhenBookIsReturned() throws IOException {
         // given
-        user.addCheckedOutItem(new Book("Foundation", "Isaac Asimov", 1951));
+        user.checkOutItem(new Book("Foundation", "Isaac Asimov", 1951));
 
         // when
         when(bufferedReader.readLine()).thenReturn("0");
@@ -137,7 +137,7 @@ public class MenuTests {
     @Test
     public void shouldPrintErrorMessageWhenTryingToReturnInvalidBook() throws IOException {
         // given
-        user.addCheckedOutItem(new Book("Foundation", "Isaac Asimov", 1951));
+        user.checkOutItem(new Book("Foundation", "Isaac Asimov", 1951));
 
         // when
         when(bufferedReader.readLine()).thenReturn("2");

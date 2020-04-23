@@ -13,10 +13,6 @@ public class User extends UserBase {
         this.checkedOutItems = new ItemList(new ArrayList<Item>());
     }
 
-    public void addCheckedOutItem(Item item) {
-        this.checkedOutItems.getItems().add(item);
-    }
-
     public ItemList getCheckedOutItems() {
         return checkedOutItems;
     }
@@ -25,21 +21,20 @@ public class User extends UserBase {
         this.checkedOutItems = checkedOutItems;
     }
 
-    public String returnAllCheckedOutItemsAsString() {
-        String itemsString = "";
-
-        for (int i = 0; i < this.checkedOutItems.getItems().size(); i++) {
-            itemsString += i  + ". " + this.checkedOutItems.getItems().get(i).toString() + "\n";
-        }
-
-        return itemsString;
+    public void removeItem(Item item) {
+        this.checkedOutItems.getItems().remove(item);
     }
 
-    public boolean returnItem(int itemIndex) {
-        if (itemIndex >= 0 && itemIndex < this.checkedOutItems.getItems().size()) {
-            this.checkedOutItems.getItems().get(itemIndex).checkin();
+    public boolean checkOutItem(Item item) {
+        if (item.checkout()) {
+            this.checkedOutItems.getItems().add(item);
             return true;
         }
         return false;
+    }
+
+    public void returnItem(Item item) {
+        item.checkin();
+        this.removeItem(item);
     }
 }

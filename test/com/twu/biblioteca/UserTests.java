@@ -1,6 +1,7 @@
 package com.twu.biblioteca;
 
 import com.twu.biblioteca.items.Book;
+import com.twu.biblioteca.items.Item;
 import com.twu.biblioteca.user.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,27 +18,28 @@ public class UserTests {
     }
 
     @Test
-    public void shouldReturnTrueWhenReturnABook() {
+    public void shouldAddItemToCheckedOutItems() {
         // given
-        user.addCheckedOutItem(new Book("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 1968));
+        Item book = new Book("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 1968);
 
         // when
-        boolean checkInResult = user.returnItem(0);
+        user.checkOutItem(book);
 
         // then
-        assertEquals(true, checkInResult);
+        assertEquals(1, user.getCheckedOutItems().getItems().size());
     }
 
     @Test
-    public void shouldReturnFalseWhenTryingToReturnBookThatDoesntExist() {
+    public void shouldRemoveItemFromCheckedOutItems() {
         // given
-        user.addCheckedOutItem(new Book("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 1968));
+        Item book = new Book("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 1968);
+        user.checkOutItem(book);
 
         // when
-        boolean checkInResult = user.returnItem(1);
+        user.returnItem(book);
 
         // then
-        assertEquals(false, checkInResult);
+        assertEquals(0, user.getCheckedOutItems().getItems().size());
     }
 
     @Test

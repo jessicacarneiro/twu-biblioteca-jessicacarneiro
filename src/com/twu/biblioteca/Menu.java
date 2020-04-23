@@ -153,21 +153,20 @@ public class Menu {
         }
     }
 
-    public boolean checkIfItemIsAvailable(int itemOption, ItemList itemList) {
-        return itemList.isItemAvailable(itemOption);
-    }
-
     public void checkOutItem(User user, ItemList itemList) {
         this.ps.print(SELECT_ITEM_TO_CHECKOUT_MESSAGE); // print message asking for input
         int option = this.receiveMenuOption(); // receives input
 
-        if (this.checkIfItemIsAvailable(option, itemList)) {
+        try {
             Item item = itemList.getItems().get(option);
-            item.checkout();
-            user.addCheckedOutItem(item);
-            this.printSuccessCheckoutMessage(item);
+            if (user.checkOutItem(item)) {
+                this.printSuccessCheckoutMessage(item);
+            }
+            else {
+                this.ps.println(NOT_AVAILABLE_ITEM_MESSAGE);
+            }
         }
-        else {
+        catch (Exception e) {
             this.ps.println(NOT_AVAILABLE_ITEM_MESSAGE);
         }
     }
@@ -177,12 +176,12 @@ public class Menu {
         this.ps.print(SELECT_ITEM_TO_RETURN_MESSAGE); // print message asking for input
         int option = this.receiveMenuOption(); // receives input
 
-        if (user.returnItem(option)) {
-            Item item = itemList.getItems().get(option);
-            item.checkin();
+        try {
+            Item item = user.getCheckedOutItems().getItems().get(option);
+            user.returnItem(item);
             this.printSuccessReturnMessage(item);
         }
-        else {
+        catch (Exception e) {
             this.ps.println(RETURN_ITEM_ERROR_MESSAGE);
         }
     }

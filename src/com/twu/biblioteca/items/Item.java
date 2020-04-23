@@ -40,7 +40,6 @@ public class Item {
             this.isAvailable = false;
             return true;
         }
-
         return false;
     }
 

@@ -30,7 +30,7 @@ public class UserListTests {
     public void shouldReturnRelationWithUsersAndCheckedOutItems() {
         // given
         User johnDoe = userList.getUserList().get(0);
-        johnDoe.addCheckedOutItem(new Movie("An American in Paris", 1951,"Vincente Minnelli", 7.2));
+        johnDoe.checkOutItem(new Movie("An American in Paris", 1951,"Vincente Minnelli", 7.2));
 
         // when
         String relation = userList.getAllItemsAndUsersRelation();
