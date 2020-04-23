@@ -22,7 +22,7 @@ public class UserTests {
         user.addCheckedOutItem(new Book("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 1968));
 
         // when
-        boolean checkInResult = user.checkInItem(0);
+        boolean checkInResult = user.returnItem(0);
 
         // then
         assertEquals(true, checkInResult);
@@ -34,7 +34,7 @@ public class UserTests {
         user.addCheckedOutItem(new Book("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 1968));
 
         // when
-        boolean checkInResult = user.checkInItem(1);
+        boolean checkInResult = user.returnItem(1);
 
         // then
         assertEquals(false, checkInResult);

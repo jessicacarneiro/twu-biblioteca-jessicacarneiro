@@ -44,7 +44,7 @@ public class UserListTests {
         // given
         User tomDoe = new User("Tom Doe", "567-8901", "5678901", "", "");
         userList.getUserList().add(tomDoe);
-        userList.logInUser("5678901", "567-8901");
+        userList.logInUser("567-8901", "5678901");
 
         // when
         User user = userList.getLoggedInUser();

@@ -5,8 +5,8 @@ import com.twu.biblioteca.collections.UserList;
 
 public class Librarian extends UserBase {
 
-    public Librarian(String name) {
-        super(name);
+    public Librarian(String name, String login, String password, String phone, String email) {
+        super(name, login, password, phone, email);
     }
 
     public String seeAllReturnedBooks(ItemList bookList) {

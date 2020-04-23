@@ -5,6 +5,7 @@ import com.twu.biblioteca.collections.UserList;
 import com.twu.biblioteca.items.Book;
 import com.twu.biblioteca.items.Item;
 import com.twu.biblioteca.user.User;
+import javafx.util.Pair;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -117,8 +118,8 @@ public class Menu {
     public void executeMenuOptionLoggedOutUser(int option, UserList userList) {
         switch(option) {
             case 1:
-                User userCredentials = this.receiveUserCredentials();
-                this.tryToLoginUser(userCredentials, userList);
+                Pair <String,String> userCredentials = this.receiveUserCredentials();
+                this.tryToLoginUser(userCredentials.getKey(), userCredentials.getValue(), userList);
                 break;
             case 2:
                 System.exit(0);
@@ -127,7 +128,7 @@ public class Menu {
         }
     }
 
-    public User receiveUserCredentials() {
+    public Pair<String, String> receiveUserCredentials() {
         try {
             this.ps.print(TYPE_LIBRARY_NUMBER_MESSAGE); // print message asking for library numner
             String libraryNumber = this.br.readLine();
@@ -135,7 +136,7 @@ public class Menu {
             this.ps.print(TYPE_PASSWORD_MESSAGE); // print message asking for password
             String password = this.br.readLine(); // receives password
 
-            return new User(null, libraryNumber, password, null, null);
+            return new Pair<>(libraryNumber, password);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -143,8 +144,8 @@ public class Menu {
         return null;
     }
 
-    public void tryToLoginUser(User userCredentials, UserList userList) {
-        if (userList.logInUser(userCredentials) != null) {
+    public void tryToLoginUser(String login, String password, UserList userList) {
+        if (userList.logInUser(login, password) != null) {
             this.ps.println(LOGIN_SUCCESSFUL_MESSAGE);
         }
         else {
@@ -176,7 +177,7 @@ public class Menu {
         this.ps.print(SELECT_ITEM_TO_RETURN_MESSAGE); // print message asking for input
         int option = this.receiveMenuOption(); // receives input
 
-        if (user.checkInItem(option)) {
+        if (user.returnItem(option)) {
             Item item = itemList.getItems().get(option);
             item.checkin();
             this.printSuccessReturnMessage(item);

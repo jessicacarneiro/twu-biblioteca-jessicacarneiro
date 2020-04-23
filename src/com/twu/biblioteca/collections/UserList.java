@@ -7,6 +7,7 @@ import java.util.List;
 
 public class UserList {
     private List<User> userList;
+    private User loggedInUser;
 
     public UserList(List<User> userList) {
         this.userList = userList;
@@ -20,45 +21,31 @@ public class UserList {
         this.userList = userList;
     }
 
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
     public String getAllItemsAndUsersRelation() {
         String relationUsersAndItems = "";
 
         for (User user: userList) {
             for (Item checkedOutItem: user.getCheckedOutItems().getItems()) {
-                relationUsersAndItems += "User " + user.getLibraryNumber() + " | " + checkedOutItem.getTitle() + "\n";
+                relationUsersAndItems += "User " + user.getLogin() + " | " + checkedOutItem.getTitle() + "\n";
             }
         }
 
         return relationUsersAndItems;
     }
 
-    public User getLoggedInUser() {
+    public User logInUser(String libraryNumber, String password) {
         for (User user: userList) {
-            if (user.isLoggedIn()) {
+            if (user.validateCredentials(libraryNumber, password)) {
+                this.setLoggedInUser(user);
                 return user;
-            }
-        }
-
-        return null;
-    }
-
-    public User logInUser(String password, String libraryNumber) {
-        for (User user: userList) {
-            if (user.getLibraryNumber().equals(libraryNumber)) {
-                if (user.logIn(password, libraryNumber)) {
-                    return user;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    public User logInUser(User userCredentials) {
-        for (User user: userList) {
-            if (user.equals(userCredentials)) {
-                if (user.logIn(userCredentials))
-                    return user;
             }
         }
 
