@@ -8,6 +8,9 @@ import com.twu.biblioteca.items.Movie;
 import com.twu.biblioteca.user.User;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,9 +21,14 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class MenuTests {
+    @Mock
     private PrintStream printStream;
+
+    @Mock
     private BufferedReader bufferedReader;
+
     private Menu menu;
     private List<Item> items;
     private ItemList itemList;
@@ -28,8 +36,6 @@ public class MenuTests {
 
     @Before
     public void setUp() {
-        printStream = mock(PrintStream.class);
-        bufferedReader = mock(BufferedReader.class);
         items = new ArrayList<Item>();
 
         items.add(new Book("Clean Code", "Robert C. Martin", 2008));
